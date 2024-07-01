@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  clickhouse-server:
+    image: yandex/clickhouse-server:latest
+    container_name: clickhouse-server
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ./config/users.xml:/etc/clickhouse-server/users.xml
+    ports:
+      - "8123:8123"
+    entrypoint: /bin/bash -c "cp /etc/clickhouse-server/users.xml /etc/clickhouse-server/config.d/ && exec /entrypoint.sh"
+
+volumes:
+  clickhouse_data:
